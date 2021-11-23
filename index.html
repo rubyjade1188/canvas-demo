@@ -14,35 +14,49 @@
 			let canvas = document.getElementById("canvas");
 			canvas.width = document.documentElement.clientWidth;
 			canvas.height = document.documentElement.clientHeight;
+			//画线
+			let ctx = canvas.getContext("2d");
+			ctx.fillStyle = "black";
+			ctx.strokeStyle = "none";
 
 			let painting = false;
-			canvas.onmousedown = () => {
-				painting = true;
-			};
-			canvas.onmouseup = () => {
-				painting = false;
-			};
 
 			//判断触屏是否支持
 			let isTouchDevice = "ontouchstart" in document.documentElement;
 			console.log(isTouchDevice);
 
-			//画线
-			let ctx = canvas.getContext("2d");
-			ctx.fillStyle = "black";
-
-			canvas.onmousemove = (e) => {
-				if (painting === true) {
-					// console.log(e.clientX);
-					// console.log(e.clientY);
+			if (isTouchDevice) {
+				console.log("");
+				canvas.ontouchmove = (e) => {
+					let x = e.touches[0].clientX;
+					let y = e.touches[0].clientY;
+					console.log(x, y);
 					ctx.beginPath();
-					ctx.arc(e.clientX, e.clientY, 10, 0, 2 * Math.PI);
+					ctx.arc(x, y, 10, 0, 2 * Math.PI);
 					ctx.stroke();
 					ctx.fill();
-				} else {
-					console.log("什么都不做");
-				}
-			};
+				};
+			} else {
+				canvas.onmousedown = () => {
+					painting = true;
+				};
+				canvas.onmouseup = () => {
+					painting = false;
+				};
+
+				canvas.onmousemove = (e) => {
+					if (painting === true) {
+						// console.log(e.clientX);
+						// console.log(e.clientY);
+						ctx.beginPath();
+						ctx.arc(e.clientX, e.clientY, 10, 0, 2 * Math.PI);
+						ctx.stroke();
+						ctx.fill();
+					} else {
+						console.log("什么都不做");
+					}
+				};
+			}
 		</script>
 	</body>
 </html>
