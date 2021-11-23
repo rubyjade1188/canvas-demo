@@ -17,8 +17,7 @@
 			//画线
 			let ctx = canvas.getContext("2d");
 			ctx.fillStyle = "black";
-			ctx.strokeStyle = "none";
-			ctx.lineWidth = 8;
+			ctx.lineWidth = 6;
 			ctx.lineCap = "round";
 
 			//画线方法
@@ -30,9 +29,9 @@
 			}
 
 			//判断触屏是否支持
-			let isTouchDevice = "ontouchstart" in document.documentElement;
-			console.log(isTouchDevice);
+			var isTouchDevice = "ontouchstart" in document.documentElement;
 
+			let painting = false;
 			let last;
 
 			if (isTouchDevice) {
@@ -53,10 +52,9 @@
 					last = [x, y];
 				};
 			} else {
-				let painting = false;
 				canvas.onmousedown = (e) => {
-					last = [e.clientX, e.clientY];
 					painting = true;
+					last = [e.clientX, e.clientY];
 				};
 				canvas.onmouseup = () => {
 					painting = false;
